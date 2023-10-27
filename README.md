@@ -21,7 +21,7 @@ React. Aunque la base del proyecto está establecida, es tu trabajo implementar 
    ```
 4. **Ejecuta el proyecto:**
    ```bash
-   yarn start
+   yarn dev
    ```
 
 Con estos pasos, deberías ver la aplicación en funcionamiento en http://localhost:3000
