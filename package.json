@@ -1,0 +1,19 @@
+{
+  "name": "productos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node esbuild.config.js",
+    "build": "esbuild src/index.jsx --bundle --define:process.env.NODE_ENV=\\\"production\\\" --loader:.jsx=jsx --outfile=dist/bundle.js --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.19.5",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
