@@ -1,25 +1,63 @@
 import React, { useState } from 'react';
 
-import {productos} from './listado';
+import { productos } from './listado';
 
 function Productos() {
+	const [listaOriginal] = useState(productos);
 	const [listaOrdenada, setListaOrdenada] = useState(productos);
+	const [filtros, setFiltros] = useState({
+		nombre: false,
+		precio: false
+	});
+	const [filtrosDesactivados] = useState(filtros)
 
 	const ordenarPorNombre = () => {
 		// Implementa la lógica aquí
+		if (filtros.nombre) {
+			setFiltros(filtrosDesactivados);
+			setListaOrdenada(listaOriginal);
+		} else {
+			setFiltros({
+				...filtrosDesactivados,
+				nombre: true,
+			});
+			const productosNuevoOrden = [...listaOrdenada].sort((a, b) =>
+				a.nombre.localeCompare(b.nombre, 'es-MX', { sensitivity: 'base' })
+			);
+			setListaOrdenada(productosNuevoOrden);
+		}
 	};
 
 	const ordenarPorPrecio = () => {
 		// Implementa la lógica aquí
+		if (filtros.precio) {
+			setFiltros(filtrosDesactivados);
+			setListaOrdenada(listaOriginal);
+		} else {
+			setFiltros({
+				...filtrosDesactivados,
+				precio: true,
+			});
+			const productosNuevoOrden = [...listaOrdenada].sort((a, b) =>
+				a.precio - b.precio
+			);
+			setListaOrdenada(productosNuevoOrden);
+		}
 	};
 
 	return (
 		<div style={styles.container}>
 			<div style={styles.buttonContainer}>
-				<button style={styles.button} onClick={ordenarPorNombre}>
+				<button id='filtroNombre' style={{
+					...styles.button,
+					...(filtros.nombre ? styles.active : {}),
+				}} onClick={ordenarPorNombre}>
 					Ordenar por Nombre
 				</button>
-				<button style={styles.button} onClick={ordenarPorPrecio}>
+				<button id='filtroPrecio' style={{
+					...styles.button,
+					...(filtros.precio ? styles.active : {}),
+				}} onClick={ordenarPorPrecio}>
 					Ordenar por Precio
 				</button>
 			</div>
@@ -40,15 +78,18 @@ const styles = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		padding: '20px',
 		fontFamily: 'Arial, sans-serif',
 		backgroundColor: '#f6f6f6',
 		height: '100vh',
+		maxHeight: '100vh',
 	},
 	buttonContainer: {
 		display: 'flex',
 		flexDirection: 'row',
-		marginBottom: '20px',
+		padding: '20px',
+	},
+	active: {
+		backgroundColor: '#ddc82f',
 	},
 	button: {
 		margin: '0 10px',
@@ -66,7 +107,8 @@ const styles = {
 	list: {
 		width: '80%',
 		listStyle: 'none',
-		padding: '0',
+		overflow: 'auto',
+		padding: '30px 60px'
 	},
 	card: {
 		display: 'flex',
